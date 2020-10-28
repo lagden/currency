@@ -1,0 +1,80 @@
+{
+  "name": "@tadashi/currency",
+  "version": "1.0.0",
+  "description": "The simple and tiny script for currency input mask",
+  "keywords": [
+    "currency",
+    "mask",
+    "input",
+    "tiny"
+  ],
+  "bug": {
+    "url": "https://github.com/lagden/currency",
+    "email": "lagden@gmail.com"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Thiago Lagden",
+    "email": "lagden@gmail.com"
+  },
+  "main": "dist/index.umd.js",
+  "repository": "lagden/currency",
+  "scripts": {
+    "pretest": "xo",
+    "test": "ava --serial -t",
+    "precoverage": "npm run pretest",
+    "coverage": "nyc --reporter=text-summary --reporter=lcov ava --serial -t",
+    "rollup": "rollup -c",
+    "prebuild": "npm test && rm -rf dist",
+    "build": "npm run rollup"
+  },
+  "files": [
+    "dist",
+    "src",
+    "license",
+    "README.md"
+  ],
+  "xo": {
+    "envs": [
+      "es6"
+    ],
+    "globals": [
+      "document",
+      "window",
+      "HTMLElement",
+      "HTMLInputElement"
+    ],
+    "esnext": true,
+    "semicolon": false,
+    "rules": {
+      "capitalized-comments": 0,
+      "unicorn/prevent-abbreviations": 0,
+      "no-constructor-return": 0
+    }
+  },
+  "esm": {
+    "cjs": {
+      "dedefault": true
+    }
+  },
+  "ava": {
+    "files": [
+      "test/**/*",
+      "!test/helpers/**/*"
+    ],
+    "require": [
+      "esm",
+      "./test/helpers/setup-browser-env.js"
+    ]
+  },
+  "devDependencies": {
+    "ava": "3.13.0",
+    "esm": "3.2.25",
+    "jsdom": "16.4.0",
+    "nyc": "15.1.0",
+    "rollup": "2.32.1",
+    "simulant": "0.2.2",
+    "xo": "0.34.1"
+  },
+  "dependencies": {}
+}
