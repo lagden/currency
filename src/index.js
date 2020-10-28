@@ -8,6 +8,21 @@ const instances = new Map()
 const GUID = Symbol('GUID')
 
 class Currency {
+	static position(v, opts = {}) {
+		// Problema no ESM - https://github.com/standard-things/esm/issues/866
+		// const _separator = opts?.separator ?? ' '
+		// const _sufix = opts?.sufix ?? false
+		const _separator = opts.separator || ' '
+		const _sufix = opts.sufix || false
+
+		let pos = String(v).length
+		if (_sufix) {
+			pos = String(v).length - (String(_sufix).length + String(_separator).length)
+		}
+
+		return pos
+	}
+
 	static data(input) {
 		return instances.has(input[GUID]) && instances.get(input[GUID])
 	}
@@ -27,6 +42,7 @@ class Currency {
 		const p = n.replace(d, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${opts.thousand}`)
 		const r = n.length > 2 ? `${p}${opts.decimal}${d}` : `0${opts.decimal}${d}`
 		const a = []
+
 		if (opts.prefix) {
 			a.push(opts.prefix)
 		}
@@ -80,11 +96,19 @@ class Currency {
 
 	onMasking() {
 		this.input.value = Currency.masking(this.input.value, this.opts.maskOpts)
+		// Problema no ESM - https://github.com/standard-things/esm/issues/866
+		// const _sufix = this.opts.maskOpts?.sufix ?? false
+		const _sufix = this.opts.maskOpts.sufix || false
+		if (_sufix) {
+			const pos = Currency.position(this.input.value, this.opts.maskOpts)
+			this.input.setSelectionRange(pos, pos)
+		}
 	}
 
 	onClick() {
+		const pos = Currency.position(this.input.value, this.opts.maskOpts)
 		this.input.focus()
-		this.input.setSelectionRange(this.value.length, this.value.length)
+		this.input.setSelectionRange(pos, pos)
 	}
 
 	destroy() {

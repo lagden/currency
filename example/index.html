@@ -8,10 +8,16 @@
 	</head>
 	<body>
 		<input id="money" type="text" inputmode="numeric">
+		<input id="money_euro" type="text" inputmode="numeric">
 		<script type="module">
 			import Currency from '../src/index.js'
-			const el = document.getElementById('money')
-			const mask = new Currency(el)
+
+			const _money = new Currency(money)
+			const _money_euro = new Currency(money_euro, {
+				maskOpts: {
+					sufix: '€'
+				}
+			})
 		</script>
 	</body>
 </html>

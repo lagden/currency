@@ -94,9 +94,8 @@ Codepen example: https://codepen.io/lagden/pen/jOrZVjg?editors=1010
   <body>
     <input id="money" type="text" inputmode="numeric">
     <script type="module">
-      import Currency from './node_modules/@tadashi/currency/dist/index.js'
-      const el = document.getElementById('money')
-      const mask = new Currency(el)
+      import Currency from 'https://unpkg.com/@tadashi/currency@{version}/dist/index.js'
+      const mask = new Currency(money)
     </script>
   </body>
 </html>
