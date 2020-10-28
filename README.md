@@ -7,8 +7,8 @@
 
 [ci-img]:        https://github.com/lagden/currency/workflows/Node.js%20CI/badge.svg
 [ci]:            https://github.com/lagden/currency/actions?query=workflow%3A%22Node.js+CI%22
-[coveralls-img]: https://coveralls.io/repos/github/lagden/currency/badge.svg?branch=master
-[coveralls]:     https://coveralls.io/github/lagden/currency?branch=master
+[coveralls-img]: https://coveralls.io/repos/github/lagden/currency/badge.svg?branch=main
+[coveralls]:     https://coveralls.io/github/lagden/currency?branch=main
 [devDep-img]:    https://david-dm.org/lagden/currency/dev-status.svg
 [devDep]:        https://david-dm.org/lagden/currency#info=devDependencies
 [xo-img]:        https://img.shields.io/badge/code_style-XO-5ed9c7.svg
