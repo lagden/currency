@@ -80,6 +80,8 @@ opts           | Object               | no          | [see above](#maskOpts) | M
 
 ## Usage
 
+Codepen example: https://codepen.io/lagden/pen/jOrZVjg?editors=1010
+
 ```html
 <!DOCTYPE html>
 <html>
