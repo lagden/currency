@@ -69,12 +69,12 @@ input          | HTMLInputElement     | yes         | -                      | I
 
 #### Currency.masking(v \[, opts\])
 
-Return the value formatted
+Return the value formatted.
 
 parameter      | type                 | required    | default                | description
 -----------    | -------------------- | ----------- | -------------------    | ------------
 v              | String               | yes         | -                      | Value which will be masked
-opts           | Object               | no          | [see below](#maskOpts) | Mask Options
+opts           | Object               | no          | [see above](#maskOpts) | Mask Options
 
 
 
