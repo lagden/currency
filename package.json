@@ -63,8 +63,8 @@
       "!test/helpers/**/*"
     ],
     "require": [
-      "esm",
-      "./test/helpers/setup-browser-env.js"
+      "./test/helpers/setup-browser-env.js",
+      "esm"
     ]
   },
   "devDependencies": {
