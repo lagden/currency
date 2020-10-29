@@ -23,7 +23,10 @@
     "pretest": "xo",
     "test": "ava --serial -t",
     "precoverage": "npm run pretest",
-    "coverage": "nyc --reporter=text-summary --reporter=lcov ava --serial -t",
+    "coverage": "nyc --all -s ava --serial -t",
+    "coverage:report": "nyc report --reporter=lcovonly",
+    "coverage:summary": "nyc report --reporter=text-summary",
+    "postcoverage": "npm run coverage:report && npm run coverage:summary",
     "rollup": "rollup -c",
     "prebuild": "npm test && rm -rf dist",
     "build": "npm run rollup"
