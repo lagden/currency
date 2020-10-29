@@ -68,9 +68,17 @@
     "require": [
       "./test/helpers/setup-browser-env.js",
       "esm"
-    ]
+    ],
+    "babel": {
+      "testOptions": {
+        "presets": [
+          ["module:@ava/babel/stage-4"]
+        ]
+      }
+    }
   },
   "devDependencies": {
+    "@ava/babel": "1.0.1",
     "ava": "3.13.0",
     "esm": "3.2.25",
     "jsdom": "16.4.0",
