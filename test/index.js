@@ -7,11 +7,6 @@ const test = require('ava')
 const simulant = require('simulant')
 const Currency = require('../src')
 
-test('static mask', t => {
-	const v = Currency.masking('1100.99', {prefix: 'R$'})
-	t.is(v, 'R$ 1.100,99')
-})
-
 test('static mask number', t => {
 	const v = Currency.masking(1100, {prefix: 'R$'})
 	t.is(v, 'R$ 1.100,00')
@@ -20,6 +15,16 @@ test('static mask number', t => {
 test('static mask number fraction', t => {
 	const v = Currency.masking(5500.00, {prefix: 'R$'})
 	t.is(v, 'R$ 5.500,00')
+})
+
+test('static mask number string', t => {
+	const v = Currency.masking('1111', {prefix: 'R$'})
+	t.is(v, 'R$ 11,11')
+})
+
+test('static mask number string fraction', t => {
+	const v = Currency.masking('1111.00', {prefix: 'R$'})
+	t.is(v, 'R$ 1.111,00')
 })
 
 test('throws sem input', t => {
