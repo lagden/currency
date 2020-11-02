@@ -37,7 +37,7 @@ class Currency {
 			...opts
 		}
 
-		const n = String(Number(v.replace(/\D/g, '')))
+		const n = String(v).replace(/\D/g, '').replace(/^0+/g, '')
 		const d = n.slice(-2).padStart(2, '0')
 		const p = n.replace(d, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${opts.thousand}`)
 		const r = n.length > 2 ? `${p}${opts.decimal}${d}` : `0${opts.decimal}${d}`

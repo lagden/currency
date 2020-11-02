@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/currency",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The simple and tiny script for currency input mask",
   "keywords": [
     "currency",
@@ -29,7 +29,8 @@
     "postcoverage": "npm run coverage:report && npm run coverage:summary",
     "rollup": "rollup -c",
     "prebuild": "npm test && rm -rf dist",
-    "build": "npm run rollup"
+    "build": "npm run rollup",
+    "prepare": "npm run build"
   },
   "files": [
     "dist",
