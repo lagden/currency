@@ -30,6 +30,14 @@ test('input', t => {
 	mask.destroy()
 })
 
+test('input init', t => {
+	const input = document.querySelector('#money')
+	input.value = '12.99'
+	const mask = new Currency(input, {init: true})
+	t.is(input.value, '12,99')
+	mask.destroy()
+})
+
 test('keyup', t => {
 	const input = document.querySelector('#money')
 	input.value = ''

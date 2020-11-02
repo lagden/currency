@@ -60,6 +60,7 @@ class Currency {
 		this.opts = {
 			keyEvent: 'input',
 			triggerOnBlur: false,
+			init: false,
 			maskOpts: {},
 			...opts
 		}
@@ -76,6 +77,11 @@ class Currency {
 
 		this.input = input
 		this.events = new Set()
+
+		// Initialize
+		if (this.opts.init) {
+			this.input.value = Currency.masking(this.input.value, this.opts.maskOpts)
+		}
 
 		// Listener
 		this.input.addEventListener(this.opts.keyEvent, this)

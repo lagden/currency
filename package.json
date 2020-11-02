@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/currency",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "The simple and tiny script for currency input mask",
   "keywords": [
     "currency",
