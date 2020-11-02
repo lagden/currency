@@ -12,6 +12,16 @@ test('static mask', t => {
 	t.is(v, 'R$ 1.100,99')
 })
 
+test('static mask number', t => {
+	const v = Currency.masking(1100, {prefix: 'R$'})
+	t.is(v, 'R$ 1.100,00')
+})
+
+test('static mask number fraction', t => {
+	const v = Currency.masking(5500.00, {prefix: 'R$'})
+	t.is(v, 'R$ 5.500,00')
+})
+
 test('throws sem input', t => {
 	t.throws(() => {
 		const mask = new Currency('not a input')

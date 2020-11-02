@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/currency",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The simple and tiny script for currency input mask",
   "keywords": [
     "currency",
@@ -53,7 +53,8 @@
     "rules": {
       "capitalized-comments": 0,
       "unicorn/prevent-abbreviations": 0,
-      "no-constructor-return": 0
+      "no-constructor-return": 0,
+      "unicorn/no-zero-fractions": 0
     }
   },
   "esm": {
