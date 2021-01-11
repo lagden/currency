@@ -12,6 +12,11 @@ test('static mask number', t => {
 	t.is(v, 'R$ 1.100,00')
 })
 
+test('static mask number 0', t => {
+	const v = Currency.masking(0, {prefix: 'R$'})
+	t.is(v, 'R$ 0,00')
+})
+
 test('static mask number fraction', t => {
 	const v = Currency.masking(5500.00, {prefix: 'R$'})
 	t.is(v, 'R$ 5.500,00')
