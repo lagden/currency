@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/currency",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "The simple and tiny script for currency input mask",
   "keywords": [
     "currency",
@@ -21,12 +21,8 @@
   "repository": "lagden/currency",
   "scripts": {
     "pretest": "xo",
-    "test": "ava --serial -t",
-    "precoverage": "npm run pretest",
-    "coverage": "nyc --all -s ava --serial -t",
-    "coverage:report": "nyc report --reporter=lcovonly",
-    "coverage:summary": "nyc report --reporter=text-summary",
-    "postcoverage": "npm run coverage:report && npm run coverage:summary",
+    "test": "jest test",
+    "coverage": "jest test --coverage",
     "rollup": "rollup -c",
     "prebuild": "npm test && rm -rf dist",
     "build": "npm run rollup",
@@ -43,6 +39,9 @@
       "es6"
     ],
     "globals": [
+      "beforeEach",
+      "test",
+      "expect",
       "document",
       "window",
       "HTMLElement",
@@ -57,36 +56,12 @@
       "unicorn/no-zero-fractions": 0
     }
   },
-  "esm": {
-    "cjs": {
-      "dedefault": true
-    }
-  },
-  "ava": {
-    "files": [
-      "test/**/*",
-      "!test/helpers/**/*"
-    ],
-    "require": [
-      "./test/helpers/setup-browser-env.js",
-      "esm"
-    ],
-    "babel": {
-      "testOptions": {
-        "presets": [
-          [
-            "module:@ava/babel/stage-4"
-          ]
-        ]
-      }
-    }
+  "jest": {
+    "testEnvironment": "jsdom"
   },
   "devDependencies": {
-    "@ava/babel": "1.0.1",
-    "ava": "3.15.0",
-    "esm": "3.2.25",
-    "jsdom": "16.4.0",
-    "nyc": "15.1.0",
+    "@babel/preset-env": "7.12.11",
+    "jest": "26.6.3",
     "rollup": "2.36.1",
     "simulant": "0.2.2",
     "xo": "0.37.1"

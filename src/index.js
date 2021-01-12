@@ -8,12 +8,9 @@ const instances = new Map()
 const GUID = Symbol('GUID')
 
 class Currency {
-	static position(v, opts = {}) {
-		// Problema no ESM - https://github.com/standard-things/esm/issues/866
-		// const _separator = opts?.separator ?? ' '
-		// const _sufix = opts?.sufix ?? false
-		const _separator = opts.separator || ' '
-		const _sufix = opts.sufix || false
+	static position(v, opts) {
+		const _separator = opts?.separator ?? ' '
+		const _sufix = opts?.sufix ?? false
 
 		let pos = String(v).length
 		if (_sufix) {
@@ -106,9 +103,7 @@ class Currency {
 
 	onMasking() {
 		this.input.value = Currency.masking(this.input.value, this.opts.maskOpts)
-		// Problema no ESM - https://github.com/standard-things/esm/issues/866
-		// const _sufix = this.opts.maskOpts?.sufix ?? false
-		const _sufix = this.opts.maskOpts.sufix || false
+		const _sufix = this.opts.maskOpts?.sufix ?? false
 		if (_sufix) {
 			const pos = Currency.position(this.input.value, this.opts.maskOpts)
 			this.input.setSelectionRange(pos, pos)
