@@ -7,7 +7,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{md,yaml,yml,json,coffee}]
+[*.{md,yaml,yml,json}]
 indent_style = space
 
 [*.{md,pug,marko}]
