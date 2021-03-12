@@ -2,15 +2,12 @@
 
 [![Build Status][ci-img]][ci]
 [![Coverage Status][coveralls-img]][coveralls]
-[![devDependency Status][devDep-img]][devDep]
 [![XO code style][xo-img]][xo]
 
 [ci-img]:        https://github.com/lagden/currency/workflows/Node.js%20CI/badge.svg
 [ci]:            https://github.com/lagden/currency/actions?query=workflow%3A%22Node.js+CI%22
 [coveralls-img]: https://coveralls.io/repos/github/lagden/currency/badge.svg?branch=main
 [coveralls]:     https://coveralls.io/github/lagden/currency?branch=main
-[devDep-img]:    https://david-dm.org/lagden/currency/dev-status.svg
-[devDep]:        https://david-dm.org/lagden/currency#info=devDependencies
 [xo-img]:        https://img.shields.io/badge/code_style-XO-5ed9c7.svg
 [xo]:            https://github.com/sindresorhus/xo
 
@@ -84,25 +81,15 @@ opts           | Object               | no          | [see above](#maskOpts) | M
 Codepen example: https://codepen.io/lagden/pen/jOrZVjg?editors=1010
 
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>Example</title>
-  </head>
-  <body>
-    <input id="money" type="text" inputmode="numeric">
-    <script type="module">
-      import Currency from 'https://unpkg.com/@tadashi/currency@{version}/dist/index.js'
-      const mask = new Currency(money)
-    </script>
-  </body>
-</html>
+<input id="money" type="text" inputmode="numeric">
+
+<script type="module">
+  import Currency from 'https://unpkg.com/@tadashi/currency@{version}/index.js'
+  const mask = new Currency(money)
+</script>
 ```
 
 
 ## License
 
-MIT © [Thiago Lagden](http://lagden.in)
+MIT © [Thiago Lagden](https://github.com/lagden)

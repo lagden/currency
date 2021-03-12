@@ -1,15 +1,15 @@
 #!/bin/bash
 
-DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+DIR="$(cd -P "$(dirname "$0")" && pwd)"
 
 # Import functions
 . $DIR/_fn
 
-# Go to project root
-cd $DIR
-cd ..
+# Go to current directory
+CURR_FOLDER="$(pwd)"
+cd $CURR_FOLDER
 
-rm -rf node_modules package-lock.json
+rm -rf "${CURR_FOLDER}/node_modules" "${CURR_FOLDER}/package-lock.json"
 npm i
 
 test $? -ne 0 && abort "NPM Failed" || ok "Zerado..."

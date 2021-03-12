@@ -17,6 +17,11 @@ const {
 
 let cc = 0
 
+function _error(message) {
+	process.stderr.write(message)
+	process.exit(1)
+}
+
 function getLatestVersionPackage(data, prop) {
 	if (!data) {
 		return Promise.resolve('no data to show')
@@ -51,9 +56,11 @@ Promise.all([
 			.on('close', () => {
 				process.exit(0)
 			})
+			.on('error', error => {
+				_error(error.message)
+			})
 			.end(JSON.stringify(packageJson, undefined, '  '))
 	})
 	.catch(error => {
-		process.stderr.write(error.message)
-		process.exit(1)
+		_error(error.message)
 	})

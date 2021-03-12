@@ -2,8 +2,8 @@
 
 'use strict'
 
-import Currency from '../src/index.js'
 import simulant from 'simulant'
+import Currency from '../src/index.js'
 
 beforeEach(() => {
 	document.body.innerHTML = '<input id="money" type="text">'
@@ -47,12 +47,6 @@ test('static euro', () => {
 test('static position', () => {
 	const pos = Currency.position('1.111,00 €', {sufix: '€'})
 	expect(pos).toEqual(8)
-})
-
-test('throws sem input', () => {
-	expect(() => {
-		new Currency('not a input')
-	}).toThrow('The input should be a HTMLInputElement')
 })
 
 test('input', () => {
@@ -133,12 +127,26 @@ test('options', () => {
 	mask.destroy()
 })
 
-test('instance and destroy', () => {
+test('get instance', () => {
 	const input = document.querySelector('#money')
 	const mask = new Currency(input)
-	const _mask = new Currency(input)
+	const _mask = Currency.data(input)
 
 	expect(mask).toEqual(_mask)
 	mask.destroy()
 	_mask.destroy()
+})
+
+test('throws instanced', () => {
+	expect(() => {
+		const input = document.querySelector('#money')
+		new Currency(input)
+		new Currency(input)
+	}).toThrow('The input has already been instanced. Use the static method `Currency.data(input)` to get the instance.')
+})
+
+test('throws sem input', () => {
+	expect(() => {
+		new Currency('not a input')
+	}).toThrow('The input should be a HTMLInputElement')
 })

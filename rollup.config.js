@@ -6,7 +6,7 @@ const config = [
 		output: [
 			{
 				file: 'dist/index.js',
-				format: 'esm',
+				format: 'es',
 				name: 'Currency',
 				sourcemap: true,
 				strict: false

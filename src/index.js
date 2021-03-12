@@ -1,7 +1,7 @@
 'use strict'
 
 let _cc = 0
-const _id = () => `c_${Math.trunc(Date.now() / 1000)}_${_cc++ & 0xFF}`
+const _id = () => `c_${Number(_cc++).toString(26)}_${Math.trunc(Date.now() / 1000)}`
 
 const instances = new Map()
 
@@ -73,7 +73,7 @@ class Currency {
 		// Check if element has an instance
 		const instance = Currency.data(input)
 		if (instance instanceof Currency) {
-			return instance
+			throw new TypeError('The input has already been instanced. Use the static method `Currency.data(input)` to get the instance.')
 		}
 
 		this.input = input
