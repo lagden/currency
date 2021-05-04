@@ -9,11 +9,17 @@ DIR="$(cd -P "$(dirname "$0")" && pwd)"
 CURR_FOLDER="$(pwd)"
 cd $CURR_FOLDER
 
-rm -rf "${CURR_FOLDER}/node_modules" "${CURR_FOLDER}/package-lock.json"
-npm i
+rm -rf \
+	"${CURR_FOLDER}/node_modules" \
+	"${CURR_FOLDER}/package-lock.json" \
+	"${CURR_FOLDER}/yarn.lock" \
+	"${CURR_FOLDER}/.yarn" \
+	"${CURR_FOLDER}/.pnp.*"
 
-test $? -ne 0 && abort "NPM Failed" || ok "Zerado..."
+yarn install
 
-npm audit fix
+test $? -ne 0 && abort "yarn failed" || ok "zerado..."
+
+yarn npm audit
 
 exit 0

@@ -1,52 +1,82 @@
+/* globals beforeEach expect test document */
 /* eslint no-new: 0 */
 
-'use strict'
-
 import simulant from 'simulant'
-import Currency from '../src/index.js'
+import Currency from '../src/currency.js'
 
 beforeEach(() => {
 	document.body.innerHTML = '<input id="money" type="text">'
 })
 
 test('static mask number default', () => {
-	const v = Currency.masking(1100)
+	const v = Currency.masking(1100.00)
 	expect(v).toEqual('1.100,00')
 })
 
+test('Jorge Caetano', () => {
+	const v = Currency.masking(223.22)
+	expect(v).toEqual('223,22')
+})
+
 test('static mask number', () => {
-	const v = Currency.masking(1100, {prefix: 'R$'})
-	expect(v).toEqual('R$ 1.100,00')
+	const v = Currency.masking(1100, {
+		options: {
+			style: 'currency',
+			currency: 'BRL'
+		}
+	})
+	expect(v).toEqual('R$ 1.100,00')
 })
 
 test('static mask number 0', () => {
-	const v = Currency.masking(0, {prefix: 'R$'})
-	expect(v).toEqual('R$ 0,00')
+	const v = Currency.masking(0, {
+		options: {
+			style: 'currency',
+			currency: 'BRL'
+		}
+	})
+	expect(v).toEqual('R$ 0,00')
 })
 
 test('static mask number fraction', () => {
-	const v = Currency.masking(5500.00, {prefix: 'R$'})
-	expect(v).toEqual('R$ 5.500,00')
+	const v = Currency.masking(5500.00, {
+		options: {
+			style: 'currency',
+			currency: 'BRL'
+		}
+	})
+	expect(v).toEqual('R$ 5.500,00')
 })
 
 test('static mask number string', () => {
-	const v = Currency.masking('1111', {prefix: 'R$'})
-	expect(v).toEqual('R$ 11,11')
+	const v = Currency.masking('1111', {
+		options: {
+			style: 'currency',
+			currency: 'BRL'
+		}
+	})
+	expect(v).toEqual('R$ 11,11')
 })
 
 test('static mask number string fraction', () => {
-	const v = Currency.masking('1111.00', {prefix: 'R$'})
-	expect(v).toEqual('R$ 1.111,00')
+	const v = Currency.masking('1111.00', {
+		options: {
+			style: 'currency',
+			currency: 'BRL'
+		}
+	})
+	expect(v).toEqual('R$ 1.111,00')
 })
 
 test('static euro', () => {
-	const v = Currency.masking('1111.00', {sufix: '€'})
-	expect(v).toEqual('1.111,00 €')
-})
-
-test('static position', () => {
-	const pos = Currency.position('1.111,00 €', {sufix: '€'})
-	expect(pos).toEqual(8)
+	const v = Currency.masking('1111.00', {
+		locales: 'de-DE',
+		options: {
+			style: 'currency',
+			currency: 'EUR'
+		}
+	})
+	expect(v).toEqual('1.111,00 €')
 })
 
 test('input', () => {
@@ -76,15 +106,20 @@ test('keyup', () => {
 	const mask = new Currency(input, {
 		keyEvent: 'keyup',
 		maskOpts: {
-			sufix: '€'
+			locales: 'de-DE',
+			options: {
+				style: 'currency',
+				currency: 'EUR'
+			}
 		}
 	})
+
 	for (const char of '111199'.split('')) {
 		input.value += char
 		simulant.fire(input, 'keyup')
 	}
 
-	expect(input.value).toEqual('1.111,99 €')
+	expect(input.value).toEqual('1.111,99 €')
 	mask.destroy()
 })
 
@@ -92,7 +127,10 @@ test('blur', () => {
 	const input = document.querySelector('#money')
 	input.value = ''
 
-	const mask = new Currency(input, {keyEvent: 'keyup', triggerOnBlur: true})
+	const mask = new Currency(input, {
+		keyEvent: 'keyup',
+		triggerOnBlur: true
+	})
 	input.value = '1250'
 	simulant.fire(input, 'blur')
 
@@ -115,15 +153,20 @@ test('options', () => {
 	const input = document.querySelector('#money')
 	input.value = ''
 
-	const mask = new Currency(input, {triggerOnBlur: true, maskOpts: {
-		prefix: 'US$',
-		decimal: '.',
-		thousand: ','
-	}})
+	const mask = new Currency(input, {
+		triggerOnBlur: true,
+		maskOpts: {
+			locales: 'en-US',
+			options: {
+				style: 'currency',
+				currency: 'USD'
+			}
+		}
+	})
 	input.value = '1500099'
 	simulant.fire(input, 'blur')
 
-	expect(input.value).toEqual('US$ 15,000.99')
+	expect(input.value).toEqual('$15,000.99')
 	mask.destroy()
 })
 

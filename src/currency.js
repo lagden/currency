@@ -1,4 +1,5 @@
-'use strict'
+/* globals HTMLInputElement */
+/* eslint unicorn/prefer-negative-index: 0 */
 
 let _cc = 0
 const _id = () => `c_${Number(_cc++).toString(26)}_${Math.trunc(Date.now() / 1000)}`
@@ -8,53 +9,43 @@ const instances = new Map()
 const GUID = Symbol('GUID')
 
 class Currency {
-	static position(v, opts) {
-		const _separator = opts?.separator ?? ' '
-		const _sufix = opts?.sufix ?? false
-
-		let pos = String(v).length
-		if (_sufix) {
-			pos = String(v).length - (String(_sufix).length + String(_separator).length)
-		}
-
-		return pos
-	}
-
 	static data(input) {
 		return instances.has(input[GUID]) && instances.get(input[GUID])
 	}
 
-	static masking(v, opts = {}) {
-		opts = {
-			prefix: false,
-			sufix: false,
-			separator: ' ',
-			decimal: ',',
-			thousand: '.',
-			...opts
+	static position(v) {
+		const nums = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'])
+		const len = v.length
+
+		let cc = 0
+		for (let i = len - 1; i >= 0; i--) {
+			if (nums.has(v[i])) {
+				break
+			}
+			cc++
 		}
+
+		return String(v).length - cc
+	}
+
+	static masking(v, opts = {}) {
+		const {
+			locales = 'pt-BR',
+			options = {
+				minimumFractionDigits: 2
+			}
+		} = opts
 
 		if (typeof v === 'number') {
 			v = v.toFixed(2)
 		}
 
 		const n = String(v).replace(/\D/g, '').replace(/^0+/g, '')
-		const d = n.slice(-2).padStart(2, '0')
-		const p = n.replace(d, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${opts.thousand}`)
-		const r = n.length > 2 ? `${p}${opts.decimal}${d}` : `0${opts.decimal}${d}`
-		const a = []
-
-		if (opts.prefix) {
-			a.push(opts.prefix)
-		}
-
-		a.push(r)
-
-		if (opts.sufix) {
-			a.push(opts.sufix)
-		}
-
-		return a.join(opts.separator)
+		const t = n.padStart(3, '0')
+		const d = t.slice(-2)
+		const i = t.slice(0, t.length - 2)
+		const r = new Intl.NumberFormat(locales, options).format(`${i}.${d}`)
+		return r
 	}
 
 	constructor(input, opts = {}) {
@@ -103,15 +94,12 @@ class Currency {
 
 	onMasking() {
 		this.input.value = Currency.masking(this.input.value, this.opts.maskOpts)
-		const _sufix = this.opts.maskOpts?.sufix ?? false
-		if (_sufix) {
-			const pos = Currency.position(this.input.value, this.opts.maskOpts)
-			this.input.setSelectionRange(pos, pos)
-		}
+		const pos = Currency.position(this.input.value)
+		this.input.setSelectionRange(pos, pos)
 	}
 
 	onClick() {
-		const pos = Currency.position(this.input.value, this.opts.maskOpts)
+		const pos = Currency.position(this.input.value)
 		this.input.focus()
 		this.input.setSelectionRange(pos, pos)
 	}

@@ -8,16 +8,29 @@
 	</head>
 	<body>
 		<input id="money" type="text" inputmode="numeric">
+		<input id="money_real" type="text" inputmode="numeric">
 		<input id="money_euro" type="text" inputmode="numeric">
 		<script type="module">
-			import Currency from '../src/index.js'
+			/* eslint no-undef: 0 */
+			import Currency from '../src/currency.js'
 
 			const _money = new Currency(money)
-			const _money_euro = new Currency(money_euro, {
+			const _money_real = new Currency(money_real, {
 				maskOpts: {
-					sufix: '€'
+					locales: 'pt-BR'
 				}
 			})
+			const _money_euro = new Currency(money_euro, {
+				maskOpts: {
+					locales: 'de-DE',
+					options: {
+						style: 'currency',
+						currency: 'EUR'
+					}
+				}
+			})
+
+			console.debug(_money, _money_real, _money_euro)
 		</script>
 	</body>
 </html>
