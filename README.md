@@ -44,13 +44,10 @@ maskOpts       | Object               | no          | [see below](#maskOpts) | M
 
 #### maskOpts
 
-parameter      | type                 | required    | default                | description
------------    | -------------------- | ----------- | -------------------    | ------------
-prefix         | String               | no          | false                  | Show up in the begin
-sufix          | String               | no          | false                  | Show up in the end
-separator      | String               | no          | \u0020                 | Separator between prefix, sufix and value
-decimal        | String               | no          | ,                      | Decimal separator
-thousand       | String               | no          | .                      | Thousand separator
+parameter   | type                 | required    | default                    | description
+----------- | -------------------- | ----------- | -------------------        | ------------
+locales     | String or Array      | no          | pt-BR                      | Same locales [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
+options     | Object               | no          | {minimumFractionDigits: 2} | Same options [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
 
 
 ### Static methods
@@ -85,7 +82,12 @@ Codepen example: https://codepen.io/lagden/pen/jOrZVjg?editors=1010
 
 <script type="module">
   import Currency from 'https://unpkg.com/@tadashi/currency@{version}/src/index.js'
+
+  // Instance
   const mask = new Currency(money)
+
+  // Static mode
+  Currency.masking(1100) // => 1.100,00
 </script>
 ```
 
