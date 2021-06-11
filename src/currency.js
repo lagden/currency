@@ -30,6 +30,7 @@ class Currency {
 
 	static masking(v, opts = {}) {
 		const {
+			empty = false,
 			locales = 'pt-BR',
 			options = {
 				minimumFractionDigits: 2
@@ -44,6 +45,11 @@ class Currency {
 		const t = n.padStart(3, '0')
 		const d = t.slice(-2)
 		const i = t.slice(0, t.length - 2)
+
+		if (empty && i === '0' && d === '00') {
+			return ''
+		}
+
 		const r = new Intl.NumberFormat(locales, options).format(`${i}.${d}`)
 		return r
 	}

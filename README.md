@@ -46,6 +46,7 @@ maskOpts       | Object               | no          | [see below](#maskOpts) | M
 
 parameter   | type                 | required    | default                    | description
 ----------- | -------------------- | ----------- | -------------------        | ------------
+empty       | Boolean              | no          | false                      | Keep input empty if value is 0
 locales     | String or Array      | no          | pt-BR                      | Same locales [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
 options     | Object               | no          | {minimumFractionDigits: 2} | Same options [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
 

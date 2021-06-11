@@ -38,6 +38,17 @@ test('static mask number 0', () => {
 	expect(v).toEqual('R$ 0,00')
 })
 
+test('static mask number 0 empty', () => {
+	const v = Currency.masking(0, {
+		empty: true,
+		options: {
+			style: 'currency',
+			currency: 'BRL'
+		}
+	})
+	expect(v).toEqual('')
+})
+
 test('static mask number fraction', () => {
 	const v = Currency.masking(5500.00, {
 		options: {

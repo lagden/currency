@@ -27,9 +27,8 @@ jobs:
       - run: yarn set version berry
       - run: >
           echo 'nodeLinker: node-modules' >> .yarnrc.yml
-      - run: ls -la
-      - run: cat .yarnrc.yml
-      - run: yarn install
+      - run: yarn cache clean --all
+      - run: YARN_CHECKSUM_BEHAVIOR=update yarn
       - run: npm test
         env:
           CI: true
