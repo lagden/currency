@@ -1,6 +1,7 @@
 /* globals beforeEach expect test document */
 /* eslint no-new: 0 */
 
+import userEvent from '@testing-library/user-event'
 import simulant from 'simulant'
 import Currency from '../src/currency.js'
 
@@ -38,17 +39,6 @@ test('static mask number 0', () => {
 	expect(v).toEqual('R$ 0,00')
 })
 
-test('static mask number 0 empty', () => {
-	const v = Currency.masking(0, {
-		empty: true,
-		options: {
-			style: 'currency',
-			currency: 'BRL'
-		}
-	})
-	expect(v).toEqual('')
-})
-
 test('static mask number fraction', () => {
 	const v = Currency.masking(5500.00, {
 		options: {
@@ -67,6 +57,17 @@ test('static mask number string', () => {
 		}
 	})
 	expect(v).toEqual('R$ 11,11')
+})
+
+test('static mask number 0 empty', () => {
+	const v = Currency.masking(0, {
+		empty: true,
+		options: {
+			style: 'currency',
+			currency: 'BRL'
+		}
+	})
+	expect(v).toEqual('')
 })
 
 test('static mask number string fraction', () => {
@@ -131,6 +132,20 @@ test('keyup', () => {
 	}
 
 	expect(input.value).toEqual('1.111,99 €')
+	mask.destroy()
+})
+
+test('input backspace', () => {
+	const input = document.querySelector('#money')
+	input.value = '111'
+	const mask = new Currency(input, {
+		init: true,
+		backspace: true
+	})
+
+	userEvent.type(input, '{backspace}{backspace}{backspace}{backspace}')
+
+	expect(input.value).toEqual('')
 	mask.destroy()
 })
 

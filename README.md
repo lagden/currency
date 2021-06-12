@@ -39,6 +39,7 @@ parameter      | type                 | required    | default                | d
 keyEvent       | String               | no          | input                  | Event which trigger mask
 triggerOnBlur  | Boolean              | no          | false                  | Trigger the mask when blur event occurs
 init           | Boolean              | no          | false                  | Format value when create instance
+backspace      | Boolean              | no          | false                  | Allow cleanup the input
 maskOpts       | Object               | no          | [see below](#maskOpts) | Mask Options
 
 

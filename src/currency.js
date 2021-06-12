@@ -59,6 +59,7 @@ class Currency {
 			keyEvent: 'input',
 			triggerOnBlur: false,
 			init: false,
+			backspace: false,
 			maskOpts: {},
 			...opts
 		}
@@ -98,7 +99,11 @@ class Currency {
 		instances.set(this.input[GUID], this)
 	}
 
-	onMasking() {
+	onMasking(event) {
+		if (this.opts.backspace && event?.inputType === 'deleteContentBackward') {
+			return
+		}
+
 		this.input.value = Currency.masking(this.input.value, this.opts.maskOpts)
 		const pos = Currency.position(this.input.value)
 		this.input.setSelectionRange(pos, pos)

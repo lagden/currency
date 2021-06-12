@@ -15,14 +15,17 @@
 			import Currency from '../src/currency.js'
 
 			const _money = new Currency(money)
+
 			const _money_real = new Currency(money_real, {
+				backspace: true,
 				maskOpts: {
-					empty: true,
 					locales: 'pt-BR'
 				}
 			})
+
 			const _money_euro = new Currency(money_euro, {
 				maskOpts: {
+					empty: true,
 					locales: 'de-DE',
 					options: {
 						style: 'currency',
