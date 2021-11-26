@@ -33,8 +33,8 @@ class Currency {
 			empty = false,
 			locales = 'pt-BR',
 			options = {
-				minimumFractionDigits: 2
-			}
+				minimumFractionDigits: 2,
+			},
 		} = opts
 
 		if (typeof v === 'number') {
@@ -61,7 +61,7 @@ class Currency {
 			init: false,
 			backspace: false,
 			maskOpts: {},
-			...opts
+			...opts,
 		}
 
 		if (input instanceof HTMLInputElement === false) {

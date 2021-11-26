@@ -24,14 +24,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: yarn set version berry
-      - run: >
-          echo 'nodeLinker: node-modules' >> .yarnrc.yml
-      - run: yarn cache clean --all
-      - run: YARN_CHECKSUM_BEHAVIOR=update yarn
-      - run: npm test
+      - name: Update yarn
+        run: yarn set version stable
+
+      - name: Install dependencies
+        run: yarn install
         env:
           CI: true
+
+      - name: Run test
+        run: npm test
 
       - name: Coveralls
         uses: coverallsapp/github-action@master

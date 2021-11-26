@@ -1,0 +1,20 @@
+#!/bin/sh
+
+cat <<-EOF
+// Gerado pelo bin/node/envs
+
+const envs = {}
+EOF
+
+for val in $ENV_INCLUDE; do
+	echo "envs.${val} = '${!val}'"
+	# eval "new_val=\$$val"
+	# echo "envs.${val} = '${new_val}'"
+done
+
+cat <<-EOF
+
+export default envs
+EOF
+
+exit 0

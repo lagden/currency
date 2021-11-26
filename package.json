@@ -26,29 +26,25 @@
   ],
   "repository": "lagden/currency",
   "scripts": {
-    "eslint": "eslint --config .eslintrc.cjs --ext .js --ignore-path .gitignore .",
+    "eslint": "eslint --config .eslintrc.yml --ext .js --ignore-path .gitignore .",
     "pretest": "npm run eslint",
-    "test": "jest test --coverage --coverageReporters=lcov"
+    "test": "jest test --coverage --coverageReporters=lcov --coverageReporters=text"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.14.5",
-    "@babel/plugin-syntax-top-level-await": "7.14.5",
-    "@babel/preset-env": "7.14.5",
-    "@testing-library/dom": "7.31.2",
-    "@testing-library/user-event": "13.1.9",
-    "eslint": "7.28.0",
-    "eslint-config-xo": "0.36.0",
-    "eslint-plugin-html": "6.1.2",
-    "eslint-plugin-unicorn": "33.0.1",
-    "jest": "27.0.4",
+    "@babel/eslint-parser": "7.16.3",
+    "@babel/preset-env": "7.16.4",
+    "@testing-library/dom": "8.11.1",
+    "@testing-library/user-event": "13.5.0",
+    "eslint": "8.3.0",
+    "eslint-config-xo": "0.39.0",
+    "eslint-plugin-html": "6.2.0",
+    "eslint-plugin-unicorn": "39.0.0",
+    "jest": "27.3.1",
     "simulant": "0.2.2"
   },
   "babel": {
     "presets": [
       "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-syntax-top-level-await"
     ]
   }
 }

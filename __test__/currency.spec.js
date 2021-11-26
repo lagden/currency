@@ -10,7 +10,7 @@ beforeEach(() => {
 })
 
 test('static mask number default', () => {
-	const v = Currency.masking(1100.00)
+	const v = Currency.masking(1100)
 	expect(v).toEqual('1.100,00')
 })
 
@@ -23,8 +23,8 @@ test('static mask number', () => {
 	const v = Currency.masking(1100, {
 		options: {
 			style: 'currency',
-			currency: 'BRL'
-		}
+			currency: 'BRL',
+		},
 	})
 	expect(v).toEqual('R$ 1.100,00')
 })
@@ -33,18 +33,18 @@ test('static mask number 0', () => {
 	const v = Currency.masking(0, {
 		options: {
 			style: 'currency',
-			currency: 'BRL'
-		}
+			currency: 'BRL',
+		},
 	})
 	expect(v).toEqual('R$ 0,00')
 })
 
 test('static mask number fraction', () => {
-	const v = Currency.masking(5500.00, {
+	const v = Currency.masking(5500, {
 		options: {
 			style: 'currency',
-			currency: 'BRL'
-		}
+			currency: 'BRL',
+		},
 	})
 	expect(v).toEqual('R$ 5.500,00')
 })
@@ -53,8 +53,8 @@ test('static mask number string', () => {
 	const v = Currency.masking('1111', {
 		options: {
 			style: 'currency',
-			currency: 'BRL'
-		}
+			currency: 'BRL',
+		},
 	})
 	expect(v).toEqual('R$ 11,11')
 })
@@ -64,8 +64,8 @@ test('static mask number 0 empty', () => {
 		empty: true,
 		options: {
 			style: 'currency',
-			currency: 'BRL'
-		}
+			currency: 'BRL',
+		},
 	})
 	expect(v).toEqual('')
 })
@@ -74,8 +74,8 @@ test('static mask number string fraction', () => {
 	const v = Currency.masking('1111.00', {
 		options: {
 			style: 'currency',
-			currency: 'BRL'
-		}
+			currency: 'BRL',
+		},
 	})
 	expect(v).toEqual('R$ 1.111,00')
 })
@@ -85,8 +85,8 @@ test('static euro', () => {
 		locales: 'de-DE',
 		options: {
 			style: 'currency',
-			currency: 'EUR'
-		}
+			currency: 'EUR',
+		},
 	})
 	expect(v).toEqual('1.111,00 €')
 })
@@ -94,7 +94,7 @@ test('static euro', () => {
 test('input', () => {
 	const input = document.querySelector('#money')
 	const mask = new Currency(input)
-	for (const char of '1045'.split('')) {
+	for (const char of '1045') {
 		input.value += char
 		simulant.fire(input, 'input')
 	}
@@ -121,12 +121,12 @@ test('keyup', () => {
 			locales: 'de-DE',
 			options: {
 				style: 'currency',
-				currency: 'EUR'
-			}
-		}
+				currency: 'EUR',
+			},
+		},
 	})
 
-	for (const char of '111199'.split('')) {
+	for (const char of '111199') {
 		input.value += char
 		simulant.fire(input, 'keyup')
 	}
@@ -140,7 +140,7 @@ test('input backspace', () => {
 	input.value = '111'
 	const mask = new Currency(input, {
 		init: true,
-		backspace: true
+		backspace: true,
 	})
 
 	userEvent.type(input, '{backspace}{backspace}{backspace}{backspace}')
@@ -155,7 +155,7 @@ test('blur', () => {
 
 	const mask = new Currency(input, {
 		keyEvent: 'keyup',
-		triggerOnBlur: true
+		triggerOnBlur: true,
 	})
 	input.value = '1250'
 	simulant.fire(input, 'blur')
@@ -185,9 +185,9 @@ test('options', () => {
 			locales: 'en-US',
 			options: {
 				style: 'currency',
-				currency: 'USD'
-			}
-		}
+				currency: 'USD',
+			},
+		},
 	})
 	input.value = '1500099'
 	simulant.fire(input, 'blur')
