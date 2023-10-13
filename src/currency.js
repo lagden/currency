@@ -74,6 +74,10 @@ class Currency {
 			throw new TypeError('The input has already been instanced. Use the static method `Currency.data(input)` to get the instance.')
 		}
 
+		// Add fraction on initial value if missing
+    const parts = String(input.value).split('.')
+    input.value = parts.length === 1 ? `${parts.shift()}.00` : `${parts.shift()}.${parts.pop().padEnd(2, '0')}`
+
 		this.input = input
 		this.events = new Set()
 
