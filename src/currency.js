@@ -9,6 +9,12 @@ const instances = new Map()
 const GUID = Symbol('GUID')
 
 class Currency {
+	unmaskedValue = 0
+
+	static getUnmasked() {
+		return this.unmaskedValue
+	}
+	
 	static data(input) {
 		return instances.has(input[GUID]) && instances.get(input[GUID])
 	}
@@ -50,8 +56,9 @@ class Currency {
 			return ''
 		}
 
-		const r = new Intl.NumberFormat(locales, options).format(`${i}.${d}`)
-		return r
+		this.unmaskedValue = `${i}.${d}`
+			
+		return new Intl.NumberFormat(locales, options).format(this.unmaskedValue)
 	}
 
 	constructor(input, opts = {}) {
