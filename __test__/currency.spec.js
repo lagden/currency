@@ -29,6 +29,16 @@ test('static mask number', () => {
 	expect(v).toEqual('R$ 1.100,00')
 })
 
+test('static mask number negative', () => {
+	const v = Currency.masking(-1100, {
+		options: {
+			style: 'currency',
+			currency: 'BRL',
+		},
+	})
+	expect(v).toEqual('-R$ 1.100,00')
+})
+
 test('static mask number 0', () => {
 	const v = Currency.masking(0, {
 		options: {

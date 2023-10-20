@@ -1,11 +1,7 @@
 /* globals HTMLInputElement */
 /* eslint unicorn/prefer-negative-index: 0 */
 
-let _cc = 0
-const _id = () => `c_${Number(_cc++).toString(26)}_${Math.trunc(Date.now() / 1000)}`
-
 const instances = new Map()
-
 const GUID = Symbol('GUID')
 
 class Currency {
@@ -41,16 +37,17 @@ class Currency {
 			v = v.toFixed(2)
 		}
 
+		const minus = [...String(v)].shift() === '-' ? '-' : ''
 		const n = String(v).replace(/\D/g, '').replace(/^0+/g, '')
 		const t = n.padStart(3, '0')
 		const d = t.slice(-2)
 		const i = t.slice(0, t.length - 2)
 
-		if (empty && i === '0' && d === '00') {
+		if (empty && i === '0' && d === '00' && minus === '') {
 			return ''
 		}
 
-		const r = new Intl.NumberFormat(locales, options).format(`${i}.${d}`)
+		const r = new Intl.NumberFormat(locales, options).format(`${minus}${i}.${d}`)
 		return r
 	}
 
@@ -74,8 +71,8 @@ class Currency {
 			throw new TypeError('The input has already been instanced. Use the static method `Currency.data(input)` to get the instance.')
 		}
 
-		this.input = input
 		this.events = new Set()
+		this.input = input
 
 		// Initialize
 		if (this.opts.init) {
@@ -95,8 +92,21 @@ class Currency {
 		}
 
 		// Storage instance
-		this.input[GUID] = _id()
+		this.input[GUID] = this.#id()
 		instances.set(this.input[GUID], this)
+	}
+
+	/**
+	 * Generates a unique ID.
+	 * @private
+	 * @returns {string} The generated unique ID.
+	 */
+	#id() {
+		/* istanbul ignore next */
+		if (globalThis?.crypto?.randomUUID) {
+			return globalThis.crypto.randomUUID().replaceAll('-', '')
+		}
+		return Number(Math.random()).toString(16).slice(2, 8) + Date.now().toString(16)
 	}
 
 	onMasking(event) {
