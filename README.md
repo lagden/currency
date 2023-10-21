@@ -2,14 +2,11 @@
 
 [![Build Status][ci-img]][ci]
 [![Coverage Status][coveralls-img]][coveralls]
-[![XO code style][xo-img]][xo]
 
-[ci-img]:        https://github.com/lagden/currency/workflows/Node.js%20CI/badge.svg
-[ci]:            https://github.com/lagden/currency/actions?query=workflow%3A%22Node.js+CI%22
+[ci-img]:        https://github.com/lagden/currency/actions/workflows/nodejs.yml/badge.svg
+[ci]:            https://github.com/lagden/currency/actions/workflows/nodejs.yml
 [coveralls-img]: https://coveralls.io/repos/github/lagden/currency/badge.svg?branch=main
 [coveralls]:     https://coveralls.io/github/lagden/currency?branch=main
-[xo-img]:        https://img.shields.io/badge/code_style-XO-5ed9c7.svg
-[xo]:            https://github.com/sindresorhus/xo
 
 
 The simple and tiny script for currency input mask
@@ -52,6 +49,13 @@ empty       | Boolean              | no          | false                      | 
 locales     | String or Array      | no          | pt-BR                      | The locale to use for formatting - [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
 options     | Object               | no          | {minimumFractionDigits: 2} | Additional formatting options - [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
 viaInput    | Boolean              | no          | false                      | Whether the value is set via user input.
+
+
+### getUnmasked()
+
+Converts the current masked input value to a numeric value.
+
+---
 
 
 ### Static methods

@@ -173,6 +173,14 @@ class Currency {
 	}
 
 	/**
+	 * Converts the current masked input value to a numeric value.
+	 * @returns {number} The numeric representation of the current input value.
+	 */
+	getUnmasked() {
+		return Currency.unmasking(this.input.value)
+	}
+
+	/**
 	 * Generates a unique ID for the instance.
 	 * @private
 	 * @returns {string} The generated unique ID.

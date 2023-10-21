@@ -31,6 +31,7 @@ test('robsontenorio via input', () => {
 	input.value = '88.2'
 	const mask = new Currency(input, {init: true})
 	expect(input.value).toEqual('88,20')
+	expect(mask.getUnmasked()).toEqual(88.2)
 	mask.destroy()
 	expect(input.value).toEqual('88.2')
 })
