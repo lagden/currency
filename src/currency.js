@@ -93,7 +93,10 @@ class Currency {
 
 		const nv = Number(v)
 		if (Number.isNaN(nv) === false && viaInput === false) {
-			v = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2}).format(nv)
+			v = new Intl.NumberFormat('en-US', {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			}).format(nv)
 		}
 
 		const {
