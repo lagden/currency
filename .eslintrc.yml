@@ -1,42 +1,64 @@
 root: true
 env:
-  es2021: true
+  es2022: true
   node: true
-parser: '@babel/eslint-parser'
 parserOptions:
-  ecmaVersion: 12
+  ecmaVersion: 13
   sourceType: module
 extends:
-  - xo
+  - eslint:recommended
   - plugin:unicorn/recommended
 rules:
+  camelcase: off
+  capitalized-comments: off
   indent: [error, tab]
   linebreak-style: [error, unix]
-  quotes: [error, single]
-  semi:  [error, never]
-  semi-spacing:
-    - error
-    -
-      before: false
-      after: true
   no-console: off
   no-debugger: off
+  # no-multi-assign: off
+  # no-multiple-empty-lines:
+  #   - error
+  #   -
+  #     max: 2
+  #     maxBOF: 2
+  #     maxEOF: 0
+  # no-new-func: off
+  no-undef-init: off
   no-unused-expressions:
     - error
     -
       allowShortCircuit: true
       allowTernary: true
       allowTaggedTemplates: true
-  camelcase: off
-  capitalized-comments: off
-  spaced-comment: off
+  no-unused-vars: off
   padding-line-between-statements: off
-  no-undef-init: off
-  no-new-func: off
+  quotes: [error, single]
+  # require-atomic-updates: off
+  semi:  [error, never]
+  semi-spacing:
+    - error
+    -
+      before: false
+      after: true
+  spaced-comment: off
+  # unicorn/consistent-destructuring: off
   unicorn/filename-case: off
-  unicorn/prevent-abbreviations: off
-  unicorn/no-reduce: off
-  unicorn/no-array-reduce: off
+  # unicorn/import-style:
+  #   - error
+  #   -
+  #     styles:
+  #       util: false
+  #       path:
+  #         named: true
   # unicorn/no-abusive-eslint-disable: off
-  # Bug no ctx.body Koa
-  require-atomic-updates: off
+  unicorn/no-array-reduce: off
+  # unicorn/no-negated-condition: off
+  # unicorn/no-null: off
+  unicorn/no-useless-undefined: off
+  unicorn/no-zero-fractions: off
+  # unicorn/prefer-dom-node-dataset: off
+  unicorn/prefer-event-target: off
+  unicorn/prefer-includes: off
+  # unicorn/prefer-object-from-entries: off
+  unicorn/prefer-query-selector: off
+  unicorn/prevent-abbreviations: off

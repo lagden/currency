@@ -18,46 +18,47 @@ The simple and tiny script for currency input mask
 ## Install
 
 ```
-$ npm i -S @tadashi/currency
+$ npm i @tadashi/currency
 ```
 
 ## API
 
-
 ### new Currency(input \[, opts\])
+
+Constructs a new Currency instance for a given input element.
 
 parameter      | type                 | required    | default                | description
 -----------    | -------------------- | ----------- | -------------------    | ------------
-input          | HTMLInputElement     | yes         | -                      | Input element
-opts           | Object               | no          | [see below](#opts)     | Options
+input          | HTMLInputElement     | yes         | -                      | The input element to associate with the instance.
+opts           | Object               | no          | [see below](#opts)     | Optional configuration options for the instance.
 
 
 #### opts
 
 parameter      | type                 | required    | default                | description
 -----------    | -------------------- | ----------- | -------------------    | ------------
-keyEvent       | String               | no          | input                  | Event which trigger mask
-triggerOnBlur  | Boolean              | no          | false                  | Trigger the mask when blur event occurs
-init           | Boolean              | no          | false                  | Format value when create instance
-backspace      | Boolean              | no          | false                  | Allow cleanup the input
-maskOpts       | Object               | no          | [see below](#maskOpts) | Mask Options
+keyEvent       | String               | no          | input                  | The type of key event to listen to
+triggerOnBlur  | Boolean              | no          | false                  | Whether to trigger masking on blur
+init           | Boolean              | no          | false                  | Whether to initialize masking on instance creation
+backspace      | Boolean              | no          | false                  | Whether to handle backspace key input
+maskOpts       | Object               | no          | [see below](#maskOpts) | Additional options for masking
 
 
 #### maskOpts
 
 parameter   | type                 | required    | default                    | description
 ----------- | -------------------- | ----------- | -------------------        | ------------
-empty       | Boolean              | no          | false                      | Keep input empty if value is 0
-locales     | String or Array      | no          | pt-BR                      | Same locales [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
-options     | Object               | no          | {minimumFractionDigits: 2} | Same options [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
+empty       | Boolean              | no          | false                      | Whether to return an empty string for zero values
+locales     | String or Array      | no          | pt-BR                      | The locale to use for formatting - [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
+options     | Object               | no          | {minimumFractionDigits: 2} | Additional formatting options - [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
+viaInput    | Boolean              | no          | false                      | Whether the value is set via user input.
 
 
 ### Static methods
 
-
 #### Currency.data(input)
 
-Return the instance of `Currency` from `HTMLInputElement`.
+Retrieves the instance associated with a given input element.
 
 parameter      | type                 | required    | default                | description
 -----------    | -------------------- | ----------- | -------------------    | ------------
@@ -66,13 +67,21 @@ input          | HTMLInputElement     | yes         | -                      | I
 
 #### Currency.masking(v \[, opts\])
 
-Return the value formatted.
+Formats a numeric value as a currency string with masking.
 
 parameter      | type                 | required    | default                | description
 -----------    | -------------------- | ----------- | -------------------    | ------------
-v              | String               | yes         | -                      | Value which will be masked
+v              | String               | yes         | -                      | Numeric value or string to format
 opts           | Object               | no          | [see above](#maskOpts) | Mask Options
 
+
+#### Currency.unmasking(v)
+
+Converts a masked currency value to a numeric value.
+
+parameter      | type                 | required    | default                | description
+-----------    | -------------------- | ----------- | -------------------    | ------------
+v              | String               | yes         | -                      | The masked currency value
 
 
 ## Usage

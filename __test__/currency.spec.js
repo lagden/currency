@@ -19,6 +19,34 @@ test('Jorge Caetano', () => {
 	expect(v).toEqual('223,22')
 })
 
+test('robsontenorio static', () => {
+	const v = Currency.masking(88.2)
+	const v2 = Currency.masking('88.2')
+	expect(v).toEqual('88,20')
+	expect(v2).toEqual('88,20')
+})
+
+test('robsontenorio via input', () => {
+	const input = document.querySelector('#money')
+	input.value = '88.2'
+	const mask = new Currency(input, {init: true})
+	expect(input.value).toEqual('88,20')
+	mask.destroy()
+	expect(input.value).toEqual('88.2')
+})
+
+test('robsontenorio unmasking', () => {
+	const v = Currency.masking(-88.2, {
+		options: {
+			style: 'currency',
+			currency: 'BRL',
+		},
+	})
+	const v2 = Currency.masking('88.2')
+	expect(Currency.unmasking(v)).toEqual(-88.2)
+	expect(Currency.unmasking(v2)).toEqual(88.2)
+})
+
 test('static mask number', () => {
 	const v = Currency.masking(1100, {
 		options: {
@@ -66,7 +94,7 @@ test('static mask number string', () => {
 			currency: 'BRL',
 		},
 	})
-	expect(v).toEqual('R$ 11,11')
+	expect(v).toEqual('R$ 1.111,00')
 })
 
 test('static mask number 0 empty', () => {
@@ -145,7 +173,7 @@ test('keyup', () => {
 	mask.destroy()
 })
 
-test('input backspace', () => {
+test('input backspace', async () => {
 	const input = document.querySelector('#money')
 	input.value = '111'
 	const mask = new Currency(input, {
@@ -153,7 +181,7 @@ test('input backspace', () => {
 		backspace: true,
 	})
 
-	userEvent.type(input, '{backspace}{backspace}{backspace}{backspace}')
+	await userEvent.type(input, '{Backspace>6}')
 
 	expect(input.value).toEqual('')
 	mask.destroy()

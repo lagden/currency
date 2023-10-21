@@ -1,36 +1,30 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [main]
-
-  pull_request:
-    branches: [main]
+  - push
+  - pull_request
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Update yarn
-        run: yarn set version stable
+      - name: Install pnpm
+        run: npm i -g pnpm
 
       - name: Install dependencies
-        run: yarn install
-        env:
-          CI: true
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run test
         run: npm test
