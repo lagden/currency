@@ -20,9 +20,8 @@ class Currency {
 	 * Determines the position of the decimal point in a currency value.
 	 * @param {string} v - The currency value.
 	 * @returns {number} The position of the decimal point.
-	 * @private
 	 */
-	static #position(v) {
+	static position(v) {
 		const nums = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'])
 		const len = v.length
 
@@ -206,7 +205,7 @@ class Currency {
 		}
 
 		this.input.value = Currency.masking(this.input.value, this.opts.maskOpts)
-		const pos = Currency.#position(this.input.value)
+		const pos = Currency.position(this.input.value)
 		this.input.setSelectionRange(pos, pos)
 	}
 
@@ -214,7 +213,7 @@ class Currency {
 	 * Event handler for click events.
 	 */
 	onClick() {
-		const pos = Currency.#position(this.input.value)
+		const pos = Currency.position(this.input.value)
 		this.input.focus()
 		this.input.setSelectionRange(pos, pos)
 	}
