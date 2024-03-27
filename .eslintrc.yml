@@ -63,6 +63,7 @@ rules:
   unicorn/prefer-query-selector: off
   unicorn/prevent-abbreviations: off
 
-  unicorn/prefer-code-point: off
+  # unicorn/prefer-code-point: off
   unicorn/no-hex-escape: off
   unicorn/escape-case: off
+  unicorn/prefer-negative-index: off

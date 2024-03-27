@@ -19,6 +19,7 @@
 		<input id="money_euro" type="text" inputmode="numeric">
 		<input id="money_ice" type="text" inputmode="numeric">
 		<input id="money_jp" type="text" inputmode="numeric">
+		<input id="money_bhd" type="text" inputmode="numeric">
 		<script type="module">
 			/* eslint no-undef: 0 */
 			import Currency from '../src/currency.js'
@@ -65,12 +66,25 @@
 				}
 			})
 
+			const _money_bhd = new Currency(money_bhd, {
+				maskOpts: {
+					empty: true,
+					digits: 3,
+					locales: 'ar-BH',
+					options: {
+						style: 'currency',
+						currency: 'BHD'
+					}
+				}
+			})
+
 			console.debug({
 				_money,
 				_money_real,
 				_money_euro,
 				_money_ice,
-				_money_jp
+				_money_jp,
+				_money_bhd,
 			})
 		</script>
 	</body>

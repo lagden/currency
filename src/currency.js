@@ -1,28 +1,30 @@
-/* eslint unicorn/prefer-negative-index: 0 */
-
-/**
- * Represents a utility for working with currency inputs.
- */
 const instances = new Map()
 const GUID = Symbol('GUID')
 
+/**
+ * Class representing a Currency input masking utility.
+ */
 class Currency {
 	/**
-	 * Retrieves the instance associated with a given input element.
-	 * @param {HTMLInputElement} input - The input element.
-	 * @returns {Currency | undefined} The associated Currency instance, or undefined if not found.
+	 * Check if input has a Currency instance.
+	 * @param {HTMLElement} input - The input element.
+	 * @returns {Currency|undefined} The Currency instance if exists, undefined otherwise.
 	 */
 	static data(input) {
 		return instances.has(input[GUID]) && instances.get(input[GUID])
 	}
 
 	/**
-	 * Determines the position of the decimal point in a currency value.
-	 * @param {string} v - The currency value.
-	 * @returns {number} The position of the decimal point.
+	 * Get the position of the cursor in the input.
+	 * @param {string} v - The input value.
+	 * @returns {number} The position of the cursor.
 	 */
 	static position(v) {
-		const nums = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'])
+		const nums = new Set([
+			'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+			...'٠١٢٣٤٥٦٧٨٩',
+			...'۰۱۲۳۴۵۶۷۸۹',
+		])
 		const len = v.length
 
 		let cc = 0
@@ -37,17 +39,23 @@ class Currency {
 	}
 
 	/**
-	 * Splits a currency value into its parts.
-	 * @param {string} v - The currency value.
-	 * @returns {Object} An object containing the currency parts (minus, integer, and decimal).
+	 * Get the parts of a masked input value.
+	 * @param {string} v - The masked input value.
+	 * @param {number} [digits=2] - The number of digits after the decimal point.
+	 * @returns {Object} An object containing the parts of the input value.
 	 * @private
 	 */
-	static #getParts(v) {
-		const minus = [...String(v)].shift() === '-' ? '-' : ''
-		const n = String(v).replaceAll(/\D/g, '').replaceAll(/^0+/g, '')
-		const t = n.padStart(3, '0')
-		const d = t.slice(-2)
-		const i = t.slice(0, t.length - 2)
+	static #getParts(v, digits = 2) {
+		const str = String(v)
+		const minus = /-/.test(str) ? '-' : ''
+		/* istanbul ignore next */
+		const n = str
+			.replaceAll(/[٠١٢٣٤٥٦٧٨٩]/g, d => d.codePointAt(0) - 1632) // Convert Arabic numbers
+			.replaceAll(/[۰۱۲۳۴۵۶۷۸۹]/g, d => d.codePointAt(0) - 1776) // Convert Persian numbers
+			.replaceAll(/\D/g, '').replaceAll(/^0+/g, '')
+		const t = n.padStart(digits + 1, '0')
+		const d = t.slice((digits * -1))
+		const i = t.slice(0, t.length - digits)
 		return {
 			minus,
 			d,
@@ -56,36 +64,39 @@ class Currency {
 	}
 
 	/**
-	 * Converts a masked currency value to a numeric value.
-	 * @param {string} v - The masked currency value.
-	 * @returns {number} The numeric representation of the currency value.
+	 * Convert a masked value into an unmasked numeric value.
+	 * @param {string} v - The masked input value.
+	 * @param {number} [digits=2] - The number of digits after the decimal point.
+	 * @returns {number} The unmasked numeric value.
 	 */
-	static unmasking(v) {
+	static unmasking(v, digits) {
 		const {
 			minus,
 			d,
 			i,
-		} = Currency.#getParts(v)
+		} = Currency.#getParts(v, digits)
 		return Number(`${minus}${i}.${d}`)
 	}
 
 	/**
-	 * Formats a numeric value as a currency string with masking.
-	 * @param {number|string} v - The numeric value or string to format.
-	 * @param {Object} [opts] - Optional formatting options.
-	 * @param {boolean} [opts.empty=false] - Whether to return an empty string for zero values.
-	 * @param {string} [opts.locales='pt-BR'] - The locale to use for formatting.
-	 * @param {Object} [opts.options] - Additional formatting options.
-	 * @param {boolean} [opts.viaInput=false] - Whether the value is set via user input.
-	 * @returns {string} The formatted and masked currency string.
+	 * Mask a numeric value.
+	 * @param {string|number} v - The numeric value to be masked.
+	 * @param {Object} [opts={}] - Masking options.
+	 * @param {number} [opts.digits=2] - The number of digits after the decimal point.
+	 * @param {boolean} [opts.empty=false] - Allow empty value.
+	 * @param {string} [opts.locales='pt-BR'] - The locales to use for formatting.
+	 * @param {Object} [opts.options] - Additional options for formatting.
+	 * @param {boolean} [opts.viaInput=false] - Specify if the value is coming directly from an input.
+	 * @returns {string} The masked value.
 	 */
 	static masking(v, opts = {}) {
 		const {
+			digits = 2,
 			empty = false,
 			locales = 'pt-BR',
 			options = {
-				minimumFractionDigits: 2,
-				maximumFractionDigits: 2,
+				minimumFractionDigits: digits,
+				maximumFractionDigits: digits,
 			},
 			viaInput = false,
 		} = opts
@@ -97,8 +108,8 @@ class Currency {
 		const isNumber = Number.isNaN(nv) === false
 		if (isNumber && viaInput === false && isSpecial === false) {
 			v = new Intl.NumberFormat('en-US', {
-				minimumFractionDigits: 2,
-				maximumFractionDigits: 2,
+				minimumFractionDigits: digits,
+				maximumFractionDigits: digits,
 			}).format(nv)
 		}
 
@@ -106,32 +117,30 @@ class Currency {
 			minus,
 			d,
 			i,
-		} = Currency.#getParts(v)
+		} = Currency.#getParts(v, digits)
 
-		if (empty && i === '0' && d === '00' && minus === '') {
+		if (empty && i === '0' && ['00', '000'].includes(d) && minus === '') {
 			return ''
 		}
 
-		let value = `${minus}${i}.${d}`
+		let amount = `${minus}${i}.${d}`
 		if (isSpecial && viaInput) {
 			const onlyNumbers = String(v).replaceAll(/\D/g, '')
-			value = `${minus}${onlyNumbers || 0}`
+			amount = `${minus}${onlyNumbers || 0}`
 		}
 
-		return new Intl.NumberFormat(locales, options).format(value)
+		return new Intl.NumberFormat(locales, options).format(amount)
 	}
 
 	/**
-	 * Constructs a new Currency instance for a given input element.
-	 * @param {HTMLInputElement} input - The input element to associate with the instance.
-	 * @param {Object} [opts] - Optional configuration options for the instance.
-	 * @param {string} [opts.keyEvent='input'] - The type of key event to listen to.
-	 * @param {boolean} [opts.triggerOnBlur=false] - Whether to trigger masking on blur.
-	 * @param {boolean} [opts.init=false] - Whether to initialize masking on instance creation.
-	 * @param {boolean} [opts.backspace=false] - Whether to handle backspace key input.
-	 * @param {Object} [opts.maskOpts] - Additional options for masking.
-	 * @throws {TypeError} Throws an error if the input is not an HTMLInputElement.
-	 * @throws {TypeError} Throws an error if the input element is already associated with an instance.
+	 * Constructor for Currency class.
+	 * @param {HTMLElement} input - The input element.
+	 * @param {Object} [opts={}] - Optional settings.
+	 * @param {string} [opts.keyEvent='input'] - The event type for input.
+	 * @param {boolean} [opts.triggerOnBlur=false] - Trigger event on blur.
+	 * @param {boolean} [opts.init=false] - Initialize.
+	 * @param {boolean} [opts.backspace=false] - Handle backspace.
+	 * @param {Object} [opts.maskOpts={}] - Masking options.
 	 */
 	constructor(input, opts = {}) {
 		this.opts = {
@@ -184,17 +193,17 @@ class Currency {
 	}
 
 	/**
-	 * Converts the current masked input value to a numeric value.
-	 * @returns {number} The numeric representation of the current input value.
+	 * Get the unmasked value of the input.
+	 * @returns {number} The unmasked value.
 	 */
 	getUnmasked() {
 		return Currency.unmasking(this.input.value)
 	}
 
 	/**
-	 * Generates a unique ID for the instance.
+	 * Generate a unique identifier.
+	 * @returns {string} The unique identifier.
 	 * @private
-	 * @returns {string} The generated unique ID.
 	 */
 	#id() {
 		/* istanbul ignore next */
@@ -205,7 +214,7 @@ class Currency {
 	}
 
 	/**
-	 * Event handler for masking input values.
+	 * Handle masking on input event.
 	 * @param {Event} event - The input event.
 	 */
 	onMasking(event) {
@@ -219,7 +228,7 @@ class Currency {
 	}
 
 	/**
-	 * Event handler for click events.
+	 * Handle click event.
 	 */
 	onClick() {
 		const pos = Currency.position(this.input.value)
@@ -228,7 +237,7 @@ class Currency {
 	}
 
 	/**
-	 * Destroys the Currency instance, removing event listeners and cleaning up.
+	 * Destroy the Currency instance.
 	 */
 	destroy() {
 		this.input.value = Currency.unmasking(this.input.value)
@@ -243,7 +252,7 @@ class Currency {
 	}
 
 	/**
-	 * Handles events by delegating to the appropriate event handler.
+	 * Handle events.
 	 * @param {Event} event - The event to handle.
 	 */
 	handleEvent(event) {

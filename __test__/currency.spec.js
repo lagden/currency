@@ -187,6 +187,44 @@ test('input iceland negative value', () => {
 	mask.destroy()
 })
 
+test('static arabic', () => {
+	const v = Currency.masking('1911.55', {
+		digits: 3,
+		locales: 'ar-BH',
+		options: {
+			style: 'currency',
+			currency: 'BHD',
+		},
+	})
+	expect(v).toEqual('‏١٬٩١١٫٥٥٠ د.ب.‏')
+})
+
+test('input arabic', () => {
+	const input = document.querySelector('#money')
+	input.value = '12.99'
+	const mask = new Currency(input, {
+		init: true,
+		maskOpts: {
+			digits: 3,
+			locales: 'ar-BH',
+			options: {
+				style: 'currency',
+				currency: 'BHD',
+			},
+		},
+	})
+
+	expect(input.value).toEqual('‏١٢٫٩٩٠ د.ب.‏')
+
+	for (const char of '92') {
+		input.value += char
+		simulant.fire(input, 'input')
+	}
+	expect(input.value).toEqual('‏١٬٢٩٩٫٠٩٢ د.ب.‏')
+
+	mask.destroy()
+})
+
 test('input', () => {
 	const input = document.querySelector('#money')
 	const mask = new Currency(input)

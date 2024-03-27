@@ -1,16 +1,14 @@
 # Currency
 
-[![Build Status][ci-img]][ci]
-[![Coverage Status][coveralls-img]][coveralls]
+[![Build Status][ci-img]][ci] [![Coverage Status][coveralls-img]][coveralls]
 
-[ci-img]:        https://github.com/lagden/currency/actions/workflows/nodejs.yml/badge.svg
-[ci]:            https://github.com/lagden/currency/actions/workflows/nodejs.yml
+[ci-img]: https://github.com/lagden/currency/actions/workflows/nodejs.yml/badge.svg
+[ci]: https://github.com/lagden/currency/actions/workflows/nodejs.yml
 [coveralls-img]: https://coveralls.io/repos/github/lagden/currency/badge.svg?branch=main
-[coveralls]:     https://coveralls.io/github/lagden/currency?branch=main
-
+[coveralls]: https://coveralls.io/github/lagden/currency?branch=main
+[number-format]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax
 
 The simple and tiny script for currency input mask
-
 
 ## Install
 
@@ -24,69 +22,64 @@ $ npm i @tadashi/currency
 
 Constructs a new Currency instance for a given input element.
 
-parameter      | type                 | required    | default                | description
------------    | -------------------- | ----------- | -------------------    | ------------
-input          | HTMLInputElement     | yes         | -                      | The input element to associate with the instance.
-opts           | Object               | no          | [see below](#opts)     | Optional configuration options for the instance.
-
+| parameter | type        | required | default            | description       |
+| --------- | ----------- | -------- | ------------------ | ----------------- |
+| input     | HTMLElement | yes      | -                  | The input element |
+| opts      | Object      | no       | [see below](#opts) | Optional settings |
 
 #### opts
 
-parameter      | type                 | required    | default                | description
------------    | -------------------- | ----------- | -------------------    | ------------
-keyEvent       | String               | no          | input                  | The type of key event to listen to
-triggerOnBlur  | Boolean              | no          | false                  | Whether to trigger masking on blur
-init           | Boolean              | no          | false                  | Whether to initialize masking on instance creation
-backspace      | Boolean              | no          | false                  | Whether to handle backspace key input
-maskOpts       | Object               | no          | [see below](#maskOpts) | Additional options for masking
-
+| parameter     | type    | required | default                | description                             |
+| ------------- | ------- | -------- | ---------------------- | --------------------------------------- |
+| keyEvent      | String  | no       | input                  | The event type for input                |
+| triggerOnBlur | Boolean | no       | false                  | Trigger event on blur                   |
+| init          | Boolean | no       | false                  | Initialize masking on instance creation |
+| backspace     | Boolean | no       | false                  | Handle backspace                        |
+| maskOpts      | Object  | no       | [see below](#maskOpts) | Masking options                         |
 
 #### maskOpts
 
-parameter   | type                 | required    | default                    | description
------------ | -------------------- | ----------- | -------------------        | ------------
-empty       | Boolean              | no          | false                      | Whether to return an empty string for zero values
-locales     | String or Array      | no          | pt-BR                      | The locale to use for formatting - [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
-options     | Object               | no          | {minimumFractionDigits: 2} | Additional formatting options - [Intl.NumberFormat()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#syntax)
-viaInput    | Boolean              | no          | false                      | Whether the value is set via user input.
-
+| parameter | type            | required | default | description                                                              |
+| --------- | --------------- | -------- | ------- | ------------------------------------------------------------------------ |
+| digits    | Number          | no       | 2       | The number of digits after the decimal point                             |
+| empty     | Boolean         | no       | false   | Allow empty value                                                        |
+| locales   | String or Array | no       | pt-BR   | The locales to use for formatting - [Intl.NumberFormat()][number-format] |
+| options   | Object          | no       | -       | Additional options for formatting - [Intl.NumberFormat()][number-format] |
+| viaInput  | Boolean         | no       | false   | Specify if the value is coming directly from an input                    |
 
 ### getUnmasked()
 
-Converts the current masked input value to a numeric value.
+Get the unmasked value of the input.
 
 ---
-
 
 ### Static methods
 
 #### Currency.data(input)
 
-Retrieves the instance associated with a given input element.
+Check if input has a Currency instance.
 
-parameter      | type                 | required    | default                | description
------------    | -------------------- | ----------- | -------------------    | ------------
-input          | HTMLInputElement     | yes         | -                      | Input element
-
+| parameter | type             | required | default | description       |
+| --------- | ---------------- | -------- | ------- | ----------------- |
+| input     | HTMLInputElement | yes      | -       | The input element |
 
 #### Currency.masking(v \[, opts\])
 
 Formats a numeric value as a currency string with masking.
 
-parameter      | type                 | required    | default                | description
------------    | -------------------- | ----------- | -------------------    | ------------
-v              | String               | yes         | -                      | Numeric value or string to format
-opts           | Object               | no          | [see above](#maskOpts) | Mask Options
-
+| parameter | type   | required | default                | description     |
+| --------- | ------ | -------- | ---------------------- | --------------- |
+| v         | String | Number   | yes                    | -               |
+| opts      | Object | no       | [see above](#maskOpts) | Masking options |
 
 #### Currency.unmasking(v)
 
-Converts a masked currency value to a numeric value.
+Convert a masked value into an unmasked numeric value.
 
-parameter      | type                 | required    | default                | description
------------    | -------------------- | ----------- | -------------------    | ------------
-v              | String               | yes         | -                      | The masked currency value
-
+| parameter | type   | required | default | description                                   |
+| --------- | ------ | -------- | ------- | --------------------------------------------- |
+| v         | String | yes      | -       | The masked input value.                       |
+| digits    | Number | no       | 2       | The number of digits after the decimal point. |
 
 ## Usage
 
@@ -106,6 +99,9 @@ Codepen example: https://codepen.io/lagden/pen/jOrZVjg?editors=1010
 </script>
 ```
 
+## Buy Me a Coffee
+
+BTC: bc1q7famhuj5f25n6qvlm3sssnymk2qpxrfwpyq7g4
 
 ## License
 
