@@ -90,15 +90,19 @@ class Currency {
 			viaInput = false,
 		} = opts
 
+		const specialCurrency = new Set(['ISK', 'JPY'])
+		const isSpecial = specialCurrency.has(options?.currency)
+
 		const nv = Number(v)
-		if (Number.isNaN(nv) === false && viaInput === false) {
+		const isNumber = Number.isNaN(nv) === false
+		if (isNumber && viaInput === false && isSpecial === false) {
 			v = new Intl.NumberFormat('en-US', {
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2,
 			}).format(nv)
 		}
 
-		const {
+		let {
 			minus,
 			d,
 			i,
@@ -108,8 +112,13 @@ class Currency {
 			return ''
 		}
 
-		const r = new Intl.NumberFormat(locales, options).format(`${minus}${i}.${d}`)
-		return r
+		let value = `${minus}${i}.${d}`
+		if (isSpecial && viaInput) {
+			const onlyNumbers = String(v).replaceAll(/\D/g, '')
+			value = `${minus}${onlyNumbers || 0}`
+		}
+
+		return new Intl.NumberFormat(locales, options).format(value)
 	}
 
 	/**

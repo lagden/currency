@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/currency",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "description": "The simple and tiny script for currency input mask",
   "keywords": [
     "currency",
@@ -38,11 +38,11 @@
     "test": "jest test --coverage --coverageReporters=lcov --coverageReporters=text"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.23.2",
-    "@testing-library/dom": "9.3.3",
-    "@testing-library/user-event": "14.5.1",
-    "eslint": "8.52.0",
-    "eslint-plugin-unicorn": "48.0.1",
+    "@babel/preset-env": "7.24.3",
+    "@testing-library/dom": "9.3.4",
+    "@testing-library/user-event": "14.5.2",
+    "eslint": "8.57.0",
+    "eslint-plugin-unicorn": "51.0.1",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "simulant": "0.2.2"

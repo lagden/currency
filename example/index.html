@@ -5,11 +5,20 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<title>Example</title>
+		<style>
+			body {
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+			}
+		</style>
 	</head>
 	<body>
 		<input id="money" type="text" inputmode="numeric">
 		<input id="money_real" type="text" inputmode="numeric">
 		<input id="money_euro" type="text" inputmode="numeric">
+		<input id="money_ice" type="text" inputmode="numeric">
+		<input id="money_jp" type="text" inputmode="numeric">
 		<script type="module">
 			/* eslint no-undef: 0 */
 			import Currency from '../src/currency.js'
@@ -34,7 +43,35 @@
 				}
 			})
 
-			console.debug(_money, _money_real, _money_euro)
+			const _money_ice = new Currency(money_ice, {
+				maskOpts: {
+					empty: true,
+					locales: 'is',
+					options: {
+						style: 'currency',
+						currency: 'ISK'
+					}
+				}
+			})
+
+			const _money_jp = new Currency(money_jp, {
+				maskOpts: {
+					empty: true,
+					locales: 'ja-JP',
+					options: {
+						style: 'currency',
+						currency: 'JPY'
+					}
+				}
+			})
+
+			console.debug({
+				_money,
+				_money_real,
+				_money_euro,
+				_money_ice,
+				_money_jp
+			})
 		</script>
 	</body>
 </html>

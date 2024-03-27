@@ -55,7 +55,7 @@ test('static mask number', () => {
 			currency: 'BRL',
 		},
 	})
-	expect(v).toEqual('R$ 1.100,00')
+	expect(v).toEqual('R$\xa01.100,00')
 })
 
 test('static mask number negative', () => {
@@ -65,7 +65,7 @@ test('static mask number negative', () => {
 			currency: 'BRL',
 		},
 	})
-	expect(v).toEqual('-R$ 1.100,00')
+	expect(v).toEqual('-R$\xa01.100,00')
 })
 
 test('static mask number 0', () => {
@@ -75,7 +75,7 @@ test('static mask number 0', () => {
 			currency: 'BRL',
 		},
 	})
-	expect(v).toEqual('R$ 0,00')
+	expect(v).toEqual('R$\xa00,00')
 })
 
 test('static mask number fraction', () => {
@@ -85,7 +85,7 @@ test('static mask number fraction', () => {
 			currency: 'BRL',
 		},
 	})
-	expect(v).toEqual('R$ 5.500,00')
+	expect(v).toEqual('R$\xa05.500,00')
 })
 
 test('static mask number string', () => {
@@ -95,7 +95,7 @@ test('static mask number string', () => {
 			currency: 'BRL',
 		},
 	})
-	expect(v).toEqual('R$ 1.111,00')
+	expect(v).toEqual('R$\xa01.111,00')
 })
 
 test('static mask number 0 empty', () => {
@@ -116,7 +116,7 @@ test('static mask number string fraction', () => {
 			currency: 'BRL',
 		},
 	})
-	expect(v).toEqual('R$ 1.111,00')
+	expect(v).toEqual('R$\xa01.111,00')
 })
 
 test('static euro', () => {
@@ -127,7 +127,64 @@ test('static euro', () => {
 			currency: 'EUR',
 		},
 	})
-	expect(v).toEqual('1.111,00 €')
+	expect(v).toEqual('1.111,00\xa0€')
+})
+
+test('static iceland', () => {
+	const v = Currency.masking('1111.55', {
+		locales: 'is',
+		options: {
+			style: 'currency',
+			currency: 'ISK',
+		},
+	})
+	expect(v).toEqual('1.112\xa0kr.')
+})
+
+test('input iceland', () => {
+	const input = document.querySelector('#money')
+	input.value = '12.99'
+	const mask = new Currency(input, {
+		init: true,
+		maskOpts: {
+			locales: 'is',
+			options: {
+				style: 'currency',
+				currency: 'ISK',
+			},
+		},
+	})
+
+	expect(input.value).toEqual('13\xa0kr.')
+
+	for (const char of '92') {
+		input.value += char
+		simulant.fire(input, 'input')
+	}
+	expect(input.value).toEqual('1.392\xa0kr.')
+
+	mask.destroy()
+})
+
+test('input iceland negative value', () => {
+	const input = document.querySelector('#money')
+	const mask = new Currency(input, {
+		maskOpts: {
+			locales: 'is',
+			options: {
+				style: 'currency',
+				currency: 'ISK',
+			},
+		},
+	})
+
+	for (const char of '-2468') {
+		input.value += char
+		simulant.fire(input, 'input')
+	}
+	expect(input.value).toEqual('-2.468\xa0kr.')
+
+	mask.destroy()
 })
 
 test('input', () => {
@@ -170,7 +227,7 @@ test('keyup', () => {
 		simulant.fire(input, 'keyup')
 	}
 
-	expect(input.value).toEqual('1.111,99 €')
+	expect(input.value).toEqual('1.111,99\xa0€')
 	mask.destroy()
 })
 
