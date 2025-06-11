@@ -35,16 +35,16 @@ declare class Currency {
      * @param {Object} [opts={}] - Masking options.
      * @param {number} [opts.digits=2] - The number of digits after the decimal point.
      * @param {boolean} [opts.empty=false] - Allow empty value.
-     * @param {string} [opts.locales='pt-BR'] - The locales to use for formatting.
-     * @param {Object} [opts.options] - Additional options for formatting.
+     * @param {Intl.LocalesArgument} [opts.locales='pt-BR'] - The locales to use for formatting.
+     * @param {Intl.NumberFormatOptions} [opts.options] - Additional options for formatting.
      * @param {boolean} [opts.viaInput=false] - Specify if the value is coming directly from an input.
      * @returns {string} The masked value.
      */
     static masking(v: string | number, opts?: {
         digits?: number;
         empty?: boolean;
-        locales?: string;
-        options?: any;
+        locales?: Intl.LocalesArgument;
+        options?: Intl.NumberFormatOptions;
         viaInput?: boolean;
     }): string;
     /**
