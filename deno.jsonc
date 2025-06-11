@@ -1,0 +1,30 @@
+{
+	"compilerOptions": {
+		"strict": true
+	},
+	"lint": {
+		"include": ["src/", "test/"],
+		"rules": {
+			"tags": ["recommended"],
+			"include": ["ban-untagged-todo"],
+			"exclude": ["no-irregular-whitespace", "no-node-globals"]
+		}
+	},
+	"fmt": {
+		"useTabs": true,
+		"indentWidth": 4,
+		"lineWidth": 160,
+		"semiColons": false,
+		"singleQuote": true,
+		"proseWrap": "always",
+		"include": [
+			"src/",
+			"test/",
+			"*.json",
+			"*.jsonc",
+			"*.md",
+			"*.yaml",
+			"*.yml"
+		]
+	}
+}

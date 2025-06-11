@@ -1,5 +1,5 @@
-const instances = new Map()
-const GUID = Symbol('GUID')
+const instances = new Map();
+const GUID = Symbol('GUID');
 
 /**
  * Class representing a Currency input masking utility.
@@ -33,15 +33,15 @@ class Currency {
 			'0',
 			...'٠١٢٣٤٥٦٧٨٩',
 			...'۰۱۲۳۴۵۶۷۸۹',
-		])
-		const len = v.length
+		]);
+		const len = v.length;
 
-		let cc = 0
+		let cc = 0;
 		for (let i = len - 1; i >= 0; i--) {
 			if (nums.has(v[i])) {
 				break
 			}
-			cc++
+			cc++;
 		}
 
 		return String(v).length - cc
@@ -54,16 +54,16 @@ class Currency {
 	 * @returns {Object} An object containing the parts of the input value.
 	 */
 	static #getParts(v, digits = 2) {
-		const str = String(v)
-		const minus = /-/.test(str) ? '-' : ''
+		const str = String(v);
+		const minus = /-/.test(str) ? '-' : '';
 		const n = str
 			.replaceAll(/[٠١٢٣٤٥٦٧٨٩]/g, (d) => (d.codePointAt(0) - 1632).toString()) // Convert Arabic numbers
 			.replaceAll(/[۰۱۲۳۴۵۶۷۸۹]/g, (d) => (d.codePointAt(0) - 1776).toString()) // Convert Persian numbers
 			.replaceAll(/\D/g, '')
-			.replaceAll(/^0+/g, '')
-		const t = n.padStart(digits + 1, '0')
-		const d = t.slice(digits * -1)
-		const i = t.slice(0, t.length - digits)
+			.replaceAll(/^0+/g, '');
+		const t = n.padStart(digits + 1, '0');
+		const d = t.slice(digits * -1);
+		const i = t.slice(0, t.length - digits);
 		return {
 			minus,
 			d,
@@ -82,7 +82,7 @@ class Currency {
 			minus,
 			d,
 			i,
-		} = Currency.#getParts(v, digits)
+		} = Currency.#getParts(v, digits);
 		return Number(`${minus}${i}.${d}`)
 	}
 
@@ -107,34 +107,34 @@ class Currency {
 				maximumFractionDigits: digits,
 			},
 			viaInput = false,
-		} = opts
+		} = opts;
 
-		const specialCurrency = new Set(['ISK', 'JPY'])
-		const isSpecial = specialCurrency.has(options?.currency)
+		const specialCurrency = new Set(['ISK', 'JPY']);
+		const isSpecial = specialCurrency.has(options?.currency);
 
-		const nv = Number(v)
-		const isNumber = Number.isNaN(nv) === false
+		const nv = Number(v);
+		const isNumber = Number.isNaN(nv) === false;
 		if (isNumber && viaInput === false && isSpecial === false) {
 			v = new Intl.NumberFormat('en-US', {
 				minimumFractionDigits: digits,
 				maximumFractionDigits: digits,
-			}).format(nv)
+			}).format(nv);
 		}
 
 		const {
 			minus,
 			d,
 			i,
-		} = Currency.#getParts(String(v), digits)
+		} = Currency.#getParts(String(v), digits);
 
 		if (empty && i === '0' && ['00', '000'].includes(d) && minus === '') {
 			return ''
 		}
 
-		let amount = `${minus}${i}.${d}`
+		let amount = `${minus}${i}.${d}`;
 		if (isSpecial && viaInput) {
-			const onlyNumbers = String(v).replaceAll(/\D/g, '')
-			amount = `${minus}${onlyNumbers || 0}`
+			const onlyNumbers = String(v).replaceAll(/\D/g, '');
+			amount = `${minus}${onlyNumbers || 0}`;
 		}
 
 		return new Intl.NumberFormat(locales, options).format(Number(amount))
@@ -158,46 +158,46 @@ class Currency {
 			backspace: false,
 			maskOpts: {},
 			...opts,
-		}
+		};
 
-		this.opts.maskOpts.viaInput = true
+		this.opts.maskOpts.viaInput = true;
 
 		if (input instanceof globalThis.HTMLInputElement === false) {
 			throw new TypeError('The input should be a HTMLInputElement')
 		}
 
 		// Check if element has an instance
-		const instance = Currency.data(input)
+		const instance = Currency.data(input);
 		if (instance instanceof Currency) {
 			throw new TypeError('The input has already been instanced. Use the static method `Currency.data(input)` to get the instance.')
 		}
 
-		this.events = new Set()
-		this.input = input
+		this.events = new Set();
+		this.input = input;
 
 		// Initialize
 		if (this.opts.init) {
 			this.input.value = Currency.masking(this.input.value, {
 				...this.opts.maskOpts,
 				viaInput: false,
-			})
+			});
 		}
 
 		// Listener
-		this.input.addEventListener(this.opts.keyEvent, this)
-		this.events.add(this.opts.keyEvent)
+		this.input.addEventListener(this.opts.keyEvent, this);
+		this.events.add(this.opts.keyEvent);
 
-		this.input.addEventListener('click', this)
-		this.events.add('click')
+		this.input.addEventListener('click', this);
+		this.events.add('click');
 
 		if (this.opts.triggerOnBlur) {
-			this.input.addEventListener('blur', this)
-			this.events.add('blur')
+			this.input.addEventListener('blur', this);
+			this.events.add('blur');
 		}
 
 		// Storage instance
-		this.input[GUID] = this.#id()
-		instances.set(this.input[GUID], this)
+		this.input[GUID] = this.#id();
+		instances.set(this.input[GUID], this);
 	}
 
 	/**
@@ -234,32 +234,32 @@ class Currency {
 			return
 		}
 
-		this.input.value = Currency.masking(this.input.value, this.opts.maskOpts)
-		const pos = Currency.position(this.input.value)
-		this.input.setSelectionRange(pos, pos)
+		this.input.value = Currency.masking(this.input.value, this.opts.maskOpts);
+		const pos = Currency.position(this.input.value);
+		this.input.setSelectionRange(pos, pos);
 	}
 
 	/**
 	 * Handle click event.
 	 */
 	onClick() {
-		const pos = Currency.position(this.input.value)
-		this.input.focus()
-		this.input.setSelectionRange(pos, pos)
+		const pos = Currency.position(this.input.value);
+		this.input.focus();
+		this.input.setSelectionRange(pos, pos);
 	}
 
 	/**
 	 * Destroy the Currency instance.
 	 */
 	destroy() {
-		this.input.value = String(Currency.unmasking(this.input.value))
+		this.input.value = String(Currency.unmasking(this.input.value));
 
 		for (const _event of this.events) {
-			this.input.removeEventListener(_event, this)
+			this.input.removeEventListener(_event, this);
 		}
 
 		if (instances.has(this.input[GUID])) {
-			instances.delete(this.input[GUID])
+			instances.delete(this.input[GUID]);
 		}
 	}
 
@@ -269,11 +269,11 @@ class Currency {
 	 */
 	handleEvent(event) {
 		if (event.type === 'click') {
-			this.onClick()
+			this.onClick();
 		} else {
-			this.onMasking(event)
+			this.onMasking(event);
 		}
 	}
 }
 
-export default Currency
+module.exports = Currency;

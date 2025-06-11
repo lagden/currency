@@ -89,13 +89,13 @@ Codepen example: https://codepen.io/lagden/pen/jOrZVjg?editors=1010
 <input id="money" type="text" inputmode="numeric">
 
 <script type="module">
-  import Currency from 'https://unpkg.com/@tadashi/currency@{version}/src/currency.js'
+	import Currency from 'https://unpkg.com/@tadashi/currency@{version}/src/currency.js'
 
-  // Instance
-  const mask = new Currency(money)
+	// Instance
+	const mask = new Currency(money)
 
-  // Static mode
-  Currency.masking(1100) // => 1.100,00
+	// Static mode
+	Currency.masking(1100) // => 1.100,00
 </script>
 ```
 

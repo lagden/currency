@@ -1,29 +1,26 @@
-# node
-node_modules
+# Helper
+test/helper/*.pdf
+test/helper/ccb*.docx
+test/ccb.spec.js
 
-# Yarn
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-!.yarnrc.yml
-.pnp.*
-
-# Logs
+# Dir
+.vite
+coverage/**
+# dist
 logs
+node_modules
+resource
+
+# File
+*-lock.*
+*.lock
 *.log
 *.log*
+.conf/local.sh
+.registry-*
+_cleanup
+_init
+vite.config.js.timestamp-*
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage
-lib-cov
-coverage
-*.lcov
-.nyc_output
+# Keep
+# !coverage/lcov.info
