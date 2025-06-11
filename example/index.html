@@ -15,6 +15,7 @@
 	</head>
 	<body>
 		<input id="money" type="text" inputmode="numeric">
+		<input id="money_number" type="text" inputmode="numeric">
 		<input id="money_real" type="text" inputmode="numeric">
 		<input id="money_euro" type="text" inputmode="numeric">
 		<input id="money_ice" type="text" inputmode="numeric">
@@ -24,6 +25,17 @@
 			import Currency from '../src/currency.js'
 
 			const _money = new Currency(money)
+
+			// Number
+			const _money_number = new Currency(money_number, {
+				maskOpts: {
+					locales: 'en-US',
+					digits: 3,
+					options: {
+						useGrouping: false,
+					},
+				},
+			})
 
 			const _money_real = new Currency(money_real, {
 				backspace: true,
@@ -79,6 +91,7 @@
 
 			console.debug({
 				_money,
+				_money_number,
 				_money_real,
 				_money_euro,
 				_money_ice,

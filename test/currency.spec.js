@@ -374,4 +374,44 @@ describe('Currency', () => {
 			'The input should be a HTMLInputElement',
 		)
 	})
+
+	it('input akavato', () => {
+		const input = document.querySelector('#money')
+		const mask = new Currency(input, {
+			maskOpts: {
+				locales: 'en-US',
+				digits: 3,
+				options: {
+					useGrouping: false,
+				},
+			},
+		})
+		for (const char of '500000') {
+			input.value += char
+			simulant.fire(input, 'input')
+		}
+
+		assert.equal(input.value, '500.000')
+		mask.destroy()
+	})
+
+	it('input no digits', () => {
+		const input = document.querySelector('#money')
+		const mask = new Currency(input, {
+			maskOpts: {
+				locales: 'en-US',
+				digits: 0,
+				options: {
+					useGrouping: false,
+				},
+			},
+		})
+		for (const char of '500') {
+			input.value += char
+			simulant.fire(input, 'input')
+		}
+
+		assert.equal(input.value, '500')
+		mask.destroy()
+	})
 })

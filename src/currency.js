@@ -127,17 +127,30 @@ class Currency {
 			i,
 		} = Currency.#getParts(String(v), digits)
 
-		if (empty && i === '0' && ['00', '000'].includes(d) && minus === '') {
+		const fillArray = (n) => {
+			const result = []
+			for (let i = 1; i <= n; i++) {
+				result.push('0'.repeat(i))
+			}
+			return result
+		}
+
+		if (empty && i === '0' && fillArray(digits).includes(d) && minus === '') {
 			return ''
 		}
 
-		let amount = `${minus}${i}.${d}`
+		let amount = `${minus}${i}.${digits > 0 ? d : 0}`
 		if (isSpecial && viaInput) {
 			const onlyNumbers = String(v).replaceAll(/\D/g, '')
 			amount = `${minus}${onlyNumbers || 0}`
 		}
 
-		return new Intl.NumberFormat(locales, options).format(Number(amount))
+		let result = new Intl.NumberFormat(locales, options).format(Number(amount))
+		if (options.useGrouping === false) {
+			result = Number(result).toFixed(digits)
+		}
+
+		return result
 	}
 
 	/**
